@@ -1,0 +1,16 @@
+[package]
+name = "post-it"
+version = "0.1.0"
+compiler = "0.13.0"
+entrypoint = "post-it.typ"
+categories = ["poster"]
+authors = ["Jesse Cobb <https://github.com/EsotericSquishyy>", "Nate Annau <https://github.com/aneziac>"]
+repository = "https://github.com/aneziac/post-it"
+description = "A simple research poster template"
+license = "MIT-0"
+exclude = [ "examples", ".git", ".gitignore", "**/*.pdf" ]
+
+[template]
+path = "template"
+entrypoint = "poster.typ"
+thumbnail = "thumbnail.png"
