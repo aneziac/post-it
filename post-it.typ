@@ -1,11 +1,6 @@
 #import "@preview/valkyrie:0.2.2" as z
 
-#let base-colors-state = state("base-colors-state", (
-  bgcolor1:   white,
-  bgcolor2:   black,
-  textcolor1: black,
-  textcolor2: black,
-))
+#let base-colors-state = state("base-colors-state")
 
 #let base-colors-schema = z.dictionary((
   bgcolor1:   z.color(),
@@ -59,7 +54,7 @@
   }
   let authors-content = {
     if mentor != none {
-      [#author --- Mentor: #mentor]
+      [#author --- #mentor]
     } else {
       [#author]
     }
@@ -113,11 +108,9 @@
   subtitle:     none,
   logo: none,
   doc,
-) = context {
-  // validation
+) = {
   assert(base-colors != none, message: "Must provide colors to post-it")
   base-colors-state.update(z.parse(base-colors, base-colors-schema))
-  assert(base-colors-state.get() != none, message: "Incorrect base-colors schema")
 
   set page(
     height: height,
@@ -127,33 +120,37 @@
 
   set par(justify: true)
 
-  set text(
-    size: 24pt,
-    fill: base-colors-state.get().textcolor1
-  )
+  context {
+    assert(base-colors-state.get() != none, message: "Incorrect base-colors schema")
 
-  show heading.where(level: 2): it => [
-    #set text(40pt, fill: base-colors-state.get().bgcolor2)
-    #it
-    #v(0.3em)
-  ]
+    set text(
+      size: 24pt,
+      fill: base-colors-state.get().textcolor1
+    )
 
-  show strong: it => [
-    #set text(fill: base-colors-state.get().textcolor1)
-    #it
-  ]
+    show heading.where(level: 2): it => [
+      #set text(40pt, fill: base-colors-state.get().bgcolor2)
+      #it
+      #v(0.3em)
+    ]
 
-  grid(
-    columns: 1,
-    rows: (13%, 83%, 4%),
-    poster_header(
-      title,
-      author,
-      mentor,
-      subtitle,
-      logo,
-    ),
-    doc,
-    poster_footer()
-  )
+    show strong: it => [
+      #set text(fill: base-colors-state.get().textcolor1)
+      #it
+    ]
+
+    grid(
+      columns: 1,
+      rows: (13%, 83%, 4%),
+      poster_header(
+        title,
+        author,
+        mentor,
+        subtitle,
+        logo,
+      ),
+      doc,
+      poster_footer()
+    )
+  }
 }
