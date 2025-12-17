@@ -1,7 +1,5 @@
 #import "@preview/valkyrie:0.2.2" as z
 
-#let base-colors-state = state("base-colors-state")
-
 #let base-colors-schema = z.dictionary((
   bgcolor1:   z.color(),
   bgcolor2:   z.color(),
@@ -9,12 +7,20 @@
   textcolor2: z.color(),
 ))
 
+#let default-base-colors = (
+  bgcolor1:   black,
+  bgcolor2:   black,
+  textcolor1: white,
+  textcolor2: white,
+)
+
 #let poster_section(
   title,
   body,
-  fill: false
-) = context {
-  let fill_color = if fill {base-colors-state.get().bgcolor1} else {none}
+  base-colors: default-base-colors,
+  fill: false,
+) = {
+  let fill_color = if fill {base-colors.bgcolor1} else {none}
   block(
     width: 100%,
     fill: fill_color,
@@ -26,7 +32,7 @@
       line(
         length: 100%,
         stroke: (
-          paint: base-colors-state.get().bgcolor2,
+          paint: base-colors.bgcolor2,
           thickness: 3pt,
           cap: "round"
         )
@@ -44,7 +50,8 @@
   mentor,
   subtitle,
   logo,
-) = context {
+  base-colors,
+) = {
   let logo-content = {
     if logo != none {
       align(center + horizon)[#logo]
@@ -61,12 +68,12 @@
   }
 
   set text(
-    fill: base-colors-state.get().textcolor2
+    fill: base-colors.textcolor2
   )
   stack(
     dir: ttb,
     block(
-      fill: base-colors-state.get().bgcolor2,
+      fill: base-colors.bgcolor2,
       width: 100%,
       height: 100%,
       inset: 0.5in,
@@ -86,11 +93,11 @@
 }
 
 
-#let poster_footer() = context {
+#let poster_footer(base-colors) = {
   stack(
     dir: ttb,
     block(
-      fill: base-colors-state.get().bgcolor2,
+      fill: base-colors.bgcolor2,
       width: 100%,
       height: 100%
     )
@@ -106,11 +113,12 @@
   base-colors:  none,
   mentor:       none,
   subtitle:     none,
-  logo: none,
+  logo:         none,
   doc,
 ) = {
-  assert(base-colors != none, message: "Must provide colors to post-it")
-  base-colors-state.update(z.parse(base-colors, base-colors-schema))
+  // validation
+  assert(base-colors != none, message: "Must provide base-colors to post-it")
+  base-colors = z.parse(base-colors, base-colors-schema)
 
   set page(
     height: height,
@@ -120,37 +128,34 @@
 
   set par(justify: true)
 
-  context {
-    assert(base-colors-state.get() != none, message: "Incorrect base-colors schema")
+  set text(
+    size: 24pt,
+    fill: base-colors.textcolor1
+  )
 
-    set text(
-      size: 24pt,
-      fill: base-colors-state.get().textcolor1
-    )
+  show heading.where(level: 2): it => [
+    #set text(40pt, fill: base-colors.bgcolor2)
+    #it
+    #v(0.3em)
+  ]
 
-    show heading.where(level: 2): it => [
-      #set text(40pt, fill: base-colors-state.get().bgcolor2)
-      #it
-      #v(0.3em)
-    ]
+  show strong: it => [
+    #set text(fill: base-colors.textcolor1)
+    #it
+  ]
 
-    show strong: it => [
-      #set text(fill: base-colors-state.get().textcolor1)
-      #it
-    ]
-
-    grid(
-      columns: 1,
-      rows: (13%, 83%, 4%),
-      poster_header(
-        title,
-        author,
-        mentor,
-        subtitle,
-        logo,
-      ),
-      doc,
-      poster_footer()
-    )
-  }
+  grid(
+    columns: 1,
+    rows: (13%, 83%, 4%),
+    poster_header(
+      title,
+      author,
+      mentor,
+      subtitle,
+      logo,
+      base-colors,
+    ),
+    doc,
+    poster_footer(base-colors)
+  )
 }

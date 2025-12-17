@@ -13,6 +13,7 @@
   logo:        image("logo.png", height: 150%),
   base-colors: base-colors
 )
+#let colored_poster_section = poster_section.with(base-colors: base-colors)
 
 #pad(
   grid(
@@ -20,19 +21,19 @@
     inset: 0.5in,
     gutter: 30pt,
     [
-      #poster_section[Section 1][#section1]
-      #poster_section(fill: true)[Section 2][#section2]
+      #colored_poster_section[Section 1][#section1]
+      #colored_poster_section(fill: true)[Section 2][#section2]
     ],
     [
-      #poster_section[Section 3][#section3]
-      #poster_section(fill: true)[Section 4][#section4]
-      #poster_section[Section 5][#section5]
+      #colored_poster_section[Section 3][#section3]
+      #colored_poster_section(fill: true)[Section 4][#section4]
+      #colored_poster_section[Section 5][#section5]
     ],
     [
-      #poster_section(fill: true)[Section 6][#section6]
-      #poster_section[Section 7][#section7]
-      #poster_section(fill: true)[Acknowledgements][#acknowledgements]
-      #poster_section[References][#references]
+      #colored_poster_section(fill: true)[Section 6][#section6]
+      #colored_poster_section[Section 7][#section7]
+      #colored_poster_section(fill: true)[Acknowledgements][#acknowledgements]
+      #colored_poster_section[References][#references]
     ]
   ),
   top: 0.5in,
