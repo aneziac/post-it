@@ -1,8 +1,8 @@
 #let base-colors = (
   bgcolor1: rgb("#E3F6E4"),
   bgcolor2: rgb("#144a35"),
-  scolor1:  rgb("#2f0707"),
-  scolor2:  rgb("#ffffff")
+  textcolor1:  rgb("#2f0707"),
+  textcolor2:  rgb("#ffffff")
 )
 
 #let acolor   = rgb("#583b29")
