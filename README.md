@@ -7,10 +7,8 @@ To get started, run
 typst init @local/post-it:0.1.0
 ```
 
-and edit `poster.typ`.
-
 ![Lorem Ipsum example](./thumbnail.svg)
 
 ## Examples
 
-![Directed Reading Poster example](./examples/drp2025/poster.svg)
+![Directed Reading Poster example](./examples/coxeter-groups/poster.svg)
