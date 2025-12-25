@@ -4,23 +4,23 @@
 #import "./colors.typ": *
 
 
-#let geom_pt(coords, label, fill_color, anchor, filled: true) = {
-  let label_text
+#let geom-pt(coords, label, fill-color, anchor, filled: true) = {
+  let label-text
   if filled {
-    label_text = markhl(text(label, fill: fill_color), fill: base-colors.bgcolor1.transparentize(20%))
+    label-text = markhl(text(label, fill: fill-color), fill: base-colors.bgcolor1.transparentize(20%))
   } else {
-    label_text = text(fill: fill_color)[#label]
+    label-text = text(fill: fill-color)[#label]
   }
 
   draw.on-layer(
     0,
-    draw.circle(coords, radius: (0.05, 0.05), fill: fill_color, stroke: none)
+    draw.circle(coords, radius: (0.05, 0.05), fill: fill-color, stroke: none)
   )
   draw.on-layer(
     1,
     draw.content(
       coords,
-      label_text,
+      label-text,
       anchor: anchor,
       padding: .15,
       name: "text"
@@ -29,7 +29,7 @@
   draw.content(coords, [], anchor: anchor, padding: .1)
 }
 
-#let K_0(pos, refx: false, refy: false, label: []) = {
+#let K-0(pos, refx: false, refy: false, label: []) = {
   import draw: *
 
   return group({
@@ -72,39 +72,39 @@
     line(s12, s23, stroke: ccolor2 + 0.1em)
     line(s23, s30, stroke: ccolor3 + 0.1em)
 
-    geom_pt(s0, [], ccolor0, "north-east")
-    geom_pt(s1, [], ccolor1, "north-west")
-    geom_pt(s2, [], ccolor2, "south-west")
-    geom_pt(s3, [], ccolor3, "south-east")
+    geom-pt(s0, [], ccolor0, "north-east")
+    geom-pt(s1, [], ccolor1, "north-west")
+    geom-pt(s2, [], ccolor2, "south-west")
+    geom-pt(s3, [], ccolor3, "south-east")
 
-    geom_pt(s01, [], black, "north")
-    geom_pt(s12, [], black, "west")
-    geom_pt(s23, [], black, "south")
-    geom_pt(s30, [], black, "east")
+    geom-pt(s01, [], black, "north")
+    geom-pt(s12, [], black, "west")
+    geom-pt(s23, [], black, "south")
+    geom-pt(s30, [], black, "east")
 
-    geom_pt(eset, label, black, "center")
+    geom-pt(eset, label, black, "center")
   })
 }
 
-#let K_1(pos, rad, reflect: false, label: []) = {
+#let K-1(pos, rad, reflect: false, label: []) = {
   import draw: *
 
-  let label_anchor = "south"
+  let label-anchor = "south"
   let inc = calc.pi / 8
   if(inc <= rad and rad < 3 * inc) {
-    label_anchor = "south-east"
+    label-anchor = "south-east"
   } else if(3 * inc <= rad and rad < 5 * inc) {
-    label_anchor = "east"
+    label-anchor = "east"
   } else if(5 * inc <= rad and rad < 7 * inc) {
-    label_anchor = "north-east"
+    label-anchor = "north-east"
   } else if(7 * inc <= rad and rad < 9 * inc) {
-    label_anchor = "north"
+    label-anchor = "north"
   } else if(9 * inc <= rad and rad < 11 * inc) {
-    label_anchor = "north-west"
+    label-anchor = "north-west"
   } else if(11 * inc <= rad and rad < 13 * inc) {
-    label_anchor = "west"
+    label-anchor = "west"
   } else if(13 * inc <= rad and rad < 15 * inc) {
-    label_anchor = "south-west"
+    label-anchor = "south-west"
   }
 
   let height = calc.sqrt(3)/2
@@ -134,42 +134,42 @@
     line(s, st, stroke: ccolor0 + 0.1em)
     line(t, st, stroke: ccolor1 + 0.1em)
 
-    geom_pt(s, [], ccolor0, "south-east")
-    geom_pt(t, [], ccolor1, "south-west")
-    geom_pt(u, [], ccolor2, "north")
+    geom-pt(s, [], ccolor0, "south-east")
+    geom-pt(t, [], ccolor1, "south-west")
+    geom-pt(u, [], ccolor2, "north")
 
-    geom_pt(st, [], black, "south")
-    geom_pt(eset, label, black, label_anchor)
+    geom-pt(st, [], black, "south")
+    geom-pt(eset, label, black, label-anchor)
   })
 }
 
 #let threetree(n) = {
   import draw: *
 
-  let colors_list = (
+  let colors-list = (
     none, interp1, interp2, interp3, interp4
     // none, yellow, green, blue, red
   )
 
-  let color = colors_list.at(n)
+  let color = colors-list.at(n)
 
-  let inner_ring_base_angle = calc.pi / (3 * calc.pow(2, n - 1))
-  let inner_ring_inc_angle = 2 * calc.pi / (3 * calc.pow(2, n - 1))
-  let outer_ring_base_angle = calc.pi / (3 * calc.pow(2, n))
-  let outer_ring_inc_angle = 2 * calc.pi / (3 * calc.pow(2, n))
+  let inner-ring-base-angle = calc.pi / (3 * calc.pow(2, n - 1))
+  let inner-ring-inc-angle = 2 * calc.pi / (3 * calc.pow(2, n - 1))
+  let outer-ring-base-angle = calc.pi / (3 * calc.pow(2, n))
+  let outer-ring-inc-angle = 2 * calc.pi / (3 * calc.pow(2, n))
 
   for x in std.range(0, 3 * calc.pow(2, n - 1)) {
     let inner = (
-      n * calc.cos(inner_ring_base_angle + inner_ring_inc_angle * x),
-      n * calc.sin(inner_ring_base_angle + inner_ring_inc_angle * x)
+      n * calc.cos(inner-ring-base-angle + inner-ring-inc-angle * x),
+      n * calc.sin(inner-ring-base-angle + inner-ring-inc-angle * x)
     )
     let outer1 = (
-      (n + 1) * calc.cos(outer_ring_base_angle + outer_ring_inc_angle * (2 * x)),
-      (n + 1) * calc.sin(outer_ring_base_angle + outer_ring_inc_angle * (2 * x))
+      (n + 1) * calc.cos(outer-ring-base-angle + outer-ring-inc-angle * (2 * x)),
+      (n + 1) * calc.sin(outer-ring-base-angle + outer-ring-inc-angle * (2 * x))
     )
     let outer2 = (
-      (n + 1) * calc.cos(outer_ring_base_angle + outer_ring_inc_angle * (2 * x + 1)),
-      (n + 1) * calc.sin(outer_ring_base_angle + outer_ring_inc_angle * (2 * x + 1))
+      (n + 1) * calc.cos(outer-ring-base-angle + outer-ring-inc-angle * (2 * x + 1)),
+      (n + 1) * calc.sin(outer-ring-base-angle + outer-ring-inc-angle * (2 * x + 1))
     )
 
     on-layer(
@@ -193,7 +193,7 @@
 
 
 
-#let coxeter_systems = [
+#let coxeter-systems = [
   *Dihedral groups*#h(-0.25em), well known from elementary group theory, encode the symmetries of regular polygons.
   For example, the square admits eight fundamental symmetries: reflections through its horizontal and vertical axes and two diagonals, and rotations through 90, 180, and 270 degrees.
 
@@ -222,15 +222,15 @@
         arc-through((-0.5, 0.7), (-0.4, 0.85), (-0.4, 0.8), mark: (end: "stealth", fill: black))
       }),
       [
-        $D_8 = gen(r\, s | r^4 = s^2 = (s r)^2 = 1)$
+        $D-8 = gen(r\, s | r^4 = s^2 = (s r)^2 = 1)$
       ],
       canvas(length: 2cm, {
         import draw: *
 
-        let base_angle = 0
-        let inc_angle = calc.pi / 4
+        let base-angle = 0
+        let inc-angle = calc.pi / 4
         let pos(n) = (
-          { (calc.cos(base_angle + inc_angle * n), calc.sin(base_angle + inc_angle * n)) }
+          { (calc.cos(base-angle + inc-angle * n), calc.sin(base-angle + inc-angle * n)) }
         )
 
         let nums = std.range(0, 8)
@@ -245,14 +245,14 @@
         line(s6, s7, stroke: ccolor0 + 3pt)
         line(s7, s0, stroke: ccolor1 + 3pt)
 
-        geom_pt(s0, $t s$, ccolor0, "west", filled: false)
-        geom_pt(s1, $t$, ccolor0, "west", filled: false)
-        geom_pt(s2, $e$, ccolor0, "south-west", filled: false)
-        geom_pt(s3, $s$, ccolor0, "south-east", filled: false)
-        geom_pt(s4, $s t$, ccolor0, "south-east", filled: false)
-        geom_pt(s5, $s t s$, ccolor0, "east", filled: false)
-        geom_pt(s6, $s t s t = t s t s$, ccolor0, "north", filled: false)
-        geom_pt(s7, $t s t$, ccolor0, "west", filled: false)
+        geom-pt(s0, $t s$, ccolor0, "west", filled: false)
+        geom-pt(s1, $t$, ccolor0, "west", filled: false)
+        geom-pt(s2, $e$, ccolor0, "south-west", filled: false)
+        geom-pt(s3, $s$, ccolor0, "south-east", filled: false)
+        geom-pt(s4, $s t$, ccolor0, "south-east", filled: false)
+        geom-pt(s5, $s t s$, ccolor0, "east", filled: false)
+        geom-pt(s6, $s t s t = t s t s$, ccolor0, "north", filled: false)
+        geom-pt(s7, $t s t$, ccolor0, "west", filled: false)
       })
     )
   ]
@@ -270,7 +270,7 @@
   Importantly, for some $T subset.eq S$, we define the *parabolic subgroup* $W_T$ of $W$ by $W_T = gen(T)$; we can show that $(W_T, T)$ is a Coxeter System as well.
 ]
 
-#let chambers_and_nerves = [
+#let chambers-and-nerves = [
   #pad(bottom: 0.2cm)[
     For the following definitions let $(W, S)$ be a Coxeter system. Then, for the diagrams shown below, let $S^((0)) = {s_0, s_1, s_2, s_3}$, $S^((1)) = {s, t, u}$, and $
       W^((0))
@@ -310,10 +310,10 @@
           line(s3, s0)
         })
 
-        geom_pt(s0, $s_0$, ccolor0, "north-east")
-        geom_pt(s1, $s_1$, ccolor1, "north-west")
-        geom_pt(s2, $s_2$, ccolor2, "south-west")
-        geom_pt(s3, $s_3$, ccolor3, "south-east")
+        geom-pt(s0, $s_0$, ccolor0, "north-east")
+        geom-pt(s1, $s_1$, ccolor1, "north-west")
+        geom-pt(s2, $s_2$, ccolor2, "south-west")
+        geom-pt(s3, $s_3$, ccolor3, "south-east")
       }),
       canvas(length: 2cm, {
         import draw: *
@@ -324,9 +324,9 @@
           line(s, t)
         })
 
-        geom_pt(s, $s$, ccolor0, "south-east")
-        geom_pt(t, $t$, ccolor1, "south-west")
-        geom_pt(u, $u$, ccolor2, "north")
+        geom-pt(s, $s$, ccolor0, "south-east")
+        geom-pt(t, $t$, ccolor1, "south-west")
+        geom-pt(u, $u$, ccolor2, "north")
       }),
       [$L(W^((0)), S^((0)))$], [$L(W^((1)), S^((1)))$],
       canvas(length: 2cm, {
@@ -344,15 +344,15 @@
           line(s30, s0)
         })
 
-        geom_pt(s0, $s_0$, ccolor0, "north-east")
-        geom_pt(s1, $s_1$, ccolor1, "north-west")
-        geom_pt(s2, $s_2$, ccolor2, "south-west")
-        geom_pt(s3, $s_3$, ccolor3, "south-east")
+        geom-pt(s0, $s_0$, ccolor0, "north-east")
+        geom-pt(s1, $s_1$, ccolor1, "north-west")
+        geom-pt(s2, $s_2$, ccolor2, "south-west")
+        geom-pt(s3, $s_3$, ccolor3, "south-east")
 
-        geom_pt(s01, ${s_0, s_1}$, ccolor4, "north")
-        geom_pt(s12, ${s_1, s_2}$, ccolor5, "west")
-        geom_pt(s23, ${s_2, s_3}$, ccolor6, "south")
-        geom_pt(s30, ${s_0, s_3}$, ccolor7, "east")
+        geom-pt(s01, ${s_0, s_1}$, ccolor4, "north")
+        geom-pt(s12, ${s_1, s_2}$, ccolor5, "west")
+        geom-pt(s23, ${s_2, s_3}$, ccolor6, "south")
+        geom-pt(s30, ${s_0, s_3}$, ccolor7, "east")
       }),
       canvas(length: 2cm, {
         import draw: *
@@ -365,11 +365,11 @@
           line(st, t)
         })
 
-        geom_pt(s, $s$, ccolor0, "south-east")
-        geom_pt(t, $t$, ccolor1, "south-west")
-        geom_pt(u, $u$, ccolor2, "north")
+        geom-pt(s, $s$, ccolor0, "south-east")
+        geom-pt(t, $t$, ccolor1, "south-west")
+        geom-pt(u, $u$, ccolor2, "north")
 
-        geom_pt(st, ${s, t}$, ccolor4, "south")
+        geom-pt(st, ${s, t}$, ccolor4, "south")
       }),
       [$L'(W^((0)), S^((0)))$], [$L'(W^((1)), S^((1)))$],
       canvas(length: 2cm, {
@@ -403,17 +403,17 @@
         line(s12, s23, stroke: ccolor2 + 0.1em)
         line(s23, s30, stroke: ccolor3 + 0.1em)
 
-        geom_pt(s0, $K_(s_0)$, ccolor0, "north-east")
-        geom_pt(s1, $K_(s_1)$, ccolor1, "north-west")
-        geom_pt(s2, $K_(s_2)$, ccolor2, "south-west")
-        geom_pt(s3, $K_(s_3)$, ccolor3, "south-east")
+        geom-pt(s0, $K_(s_0)$, ccolor0, "north-east")
+        geom-pt(s1, $K_(s_1)$, ccolor1, "north-west")
+        geom-pt(s2, $K_(s_2)$, ccolor2, "south-west")
+        geom-pt(s3, $K_(s_3)$, ccolor3, "south-east")
 
-        geom_pt(s01, [], black, "north")
-        geom_pt(s12, [], black, "west")
-        geom_pt(s23, [], black, "south")
-        geom_pt(s30, [], black, "east")
+        geom-pt(s01, [], black, "north")
+        geom-pt(s12, [], black, "west")
+        geom-pt(s23, [], black, "south")
+        geom-pt(s30, [], black, "east")
 
-        geom_pt(eset, $emptyset$, black, "north-west")
+        geom-pt(eset, $emptyset$, black, "north-west")
       }),
       canvas(length: 2cm, {
         import draw: *
@@ -435,19 +435,19 @@
         line(s, st, stroke: ccolor0 + 0.1em)
         line(t, st, stroke: ccolor1 + 0.1em)
 
-        geom_pt(s, $K_s$, ccolor0, "south-east")
-        geom_pt(t, $K_t$, ccolor1, "south-west")
-        geom_pt(u, $K_u$, ccolor2, "north")
+        geom-pt(s, $K_s$, ccolor0, "south-east")
+        geom-pt(t, $K_t$, ccolor1, "south-west")
+        geom-pt(u, $K_u$, ccolor2, "north")
 
-        geom_pt(st, [], black, "south")
-        geom_pt(eset, $emptyset$, black, "north-west")
+        geom-pt(st, [], black, "south")
+        geom-pt(eset, $emptyset$, black, "north-west")
       }),
       [$K(W^((0)), S^((0)))$], [$K(W^((1)), S^((1)))$],
     )]
   )
 ]
 
-#let basic_construction = [
+#let basic-construction = [
   We wish to realize a Coxeter group, returning it to its geometric origins.
   This is the idea behind the *basic construction* $cal(U)(W, X)$.
 
@@ -479,88 +479,78 @@
 
       let pos = (0, 0)
       let d = 1
-      K_0(pos, label: $K$)
+      K-0(pos, label: $K$)
 
       let pos = (- d, - d)
-      K_0(pos, refy: true, label: $s_0 K$)
+      K-0(pos, refy: true, label: $s_0 K$)
 
       let pos = (d, - d)
-      K_0(pos, refx: true, label: $s_1 K$)
+      K-0(pos, refx: true, label: $s_1 K$)
 
       let pos = (d, d)
-      K_0(pos, refy: true, label: $s_2 K$)
+      K-0(pos, refy: true, label: $s_2 K$)
 
       let pos = (- d, d)
-      K_0(pos, refx: true, label: $s_3 K$)
+      K-0(pos, refx: true, label: $s_3 K$)
 
       let pos = (0, - 2 * d)
-      K_0(pos, refx: true, refy: true, label: $s_0 s_1 K$)
+      K-0(pos, refx: true, refy: true, label: $s_0 s_1 K$)
 
       let pos = (2 * d, 0)
-      K_0(pos, refx: true, refy: true, label: $s_1 s_2 K$)
+      K-0(pos, refx: true, refy: true, label: $s_1 s_2 K$)
 
       let pos = (2 * d, - 2 * d)
-      K_0(pos, label: $s_1 s_3 K$)
+      K-0(pos, label: $s_1 s_3 K$)
     })],
     [#canvas(length: 2cm, {
       import draw: *
 
       let height = calc.sqrt(3)/2
       let rot = calc.pi/3
-      let pos_finder(itr) = (calc.sin(itr * rot) * 4 * height, calc.cos(itr * rot) * 4 * height)
+      let pos-finder(itr) = (calc.sin(itr * rot) * 4 * height, calc.cos(itr * rot) * 4 * height)
 
       let pos = (0, 0)
-      K_1(pos, 0 * rot, label: $K$)
-      K_1(pos, 1 * rot, reflect: true, label: $t K$)
-      K_1(pos, 2 * rot, label: $t s K$)
-      K_1(pos, 3 * rot, reflect: true, label: $t s t K$)
-      K_1(pos, 4 * rot, label: $s t K$)
-      K_1(pos, 5 * rot, reflect: true, label: $s K$)
+      K-1(pos, 0 * rot, label: $K$)
+      K-1(pos, 1 * rot, reflect: true, label: $t K$)
+      K-1(pos, 2 * rot, label: $t s K$)
+      K-1(pos, 3 * rot, reflect: true, label: $t s t K$)
+      K-1(pos, 4 * rot, label: $s t K$)
+      K-1(pos, 5 * rot, reflect: true, label: $s K$)
 
-      let pos = pos_finder(0)
-      K_1(pos, 2 * rot)
-      K_1(pos, 3 * rot, reflect: true, label: $u K$)
-      K_1(pos, 4 * rot)
+      let pos = pos-finder(0)
+      K-1(pos, 2 * rot)
+      K-1(pos, 3 * rot, reflect: true, label: $u K$)
+      K-1(pos, 4 * rot)
 
-      let pos = pos_finder(1)
-      K_1(pos, 2 * rot)
+      let pos = pos-finder(1)
+      K-1(pos, 2 * rot)
 
-      let pos = pos_finder(2)
-      K_1(pos, 1 * rot, reflect: true)
+      let pos = pos-finder(2)
+      K-1(pos, 1 * rot, reflect: true)
 
-      let pos = pos_finder(3)
-      K_1(pos, 5 * rot, reflect: true)
-      K_1(pos, 0 * rot, label: $t s t u K$)
-      K_1(pos, 1 * rot, reflect: true)
+      let pos = pos-finder(3)
+      K-1(pos, 5 * rot, reflect: true)
+      K-1(pos, 0 * rot, label: $t s t u K$)
+      K-1(pos, 1 * rot, reflect: true)
 
-      let pos = pos_finder(4)
-      K_1(pos, 5 * rot, reflect: true)
+      let pos = pos-finder(4)
+      K-1(pos, 5 * rot, reflect: true)
 
-      let pos = pos_finder(5)
-      K_1(pos, 4 * rot)
+      let pos = pos-finder(5)
+      K-1(pos, 4 * rot)
     })],
     [$cal(Sigma) (W^((0)), S^((0)))$],
     [$cal(Sigma) (W^((1)), S^((1)))$]
   )]
 ]
 
-#let Davis_complex_CAT0 = [
-  // Let $(X, d)$ be a *geodesic space* (a space in which each pair of points in $X$ is connected by a geodesic) and let $[x y]$ represent the geodesic segment from $x$ to $y$.
-  // Given a *geodesic triangle* $Delta = [x_1 x_2] cup [x_2 x_3] cup [x_3 x_1]$ in $X$ and a *comparison triangle* $overline(Delta) = [overline(x)_1 overline(x)_2] cup [overline(x)_2 overline(x)_3] cup [overline(x)_3 overline(x)_1]$ in $EE^2$ such that $d_X (x_i, x_j) = d_(EE^2) (overline(x)_i, overline(x)_j)$, we call $(X, d)$ *$"CAT"(0)$* if for every geodesic triangle $Delta subset.eq X$, and all points $p, q in Delta$, we have $
-  //  d_X (p, q)
-  //    &lt.eq d_(EE^2) (overline(p), overline(q)).
-  //$
+#let Davis-complex-CAT0 = [
   We say a *geodesic space* $X$ is *$"CAT"(0)$* if the triangles in $X$ appear no "fatter" than triangles in a Euclidean space $EE^n$ of same dimension.
   Similarly, we can define *$"CAT"(-1)$* and *$"CAT"(1)$* for triangles in $X$ compared to triangles in hyperbolic space $HH^n$ and spherical space $SS^n$ respectively.
   In order to realize this condition for the Davis complex, we must construct a metric for it.
 
-  We first choose a collection $underline(d) = (d_s)_(s in S)$ for which $d_s > 0$ for any $s in S$.
-  For finite $W_T$, let $C_T$
-  // $
-  //   C_T
-  //     &= {x in RR^n bar.v ip(x, e_t) gt.eq 0, forall t in T}
-  // $
-  be a chamber in $RR^n$ generated by the intersection of the half spaces produced by the hyperplanes $H_t$ for $t in T$ as in the *Tits Representation*#h(-0.25em).
+  We first choose a collection $underline(d) = (d_s)-(s in S)$ for which $d_s > 0$ for any $s in S$.
+  For finite $W_T$, let $C_T$ be a chamber in $RR^n$ generated by the intersection of the half spaces produced by the hyperplanes $H_t$ for $t in T$ as in the *Tits Representation*#h(-0.25em).
   Then we can define the unique point $x_T$ in the interior of $C_T$ such that $d(x_T, H_t) = d_t$ for all $t in T$.
   We then metrize each cell of $Sigma(W, S)$, $w W_T$, as a copy of the polytope generated by the $W_T$-orbit of $x_T$ (a standard choice for $underline(d)$ is $d_s = 1/2$ for all $s$ constructing the path metric for the $1$-skeleton of $Sigma(W, S)$).
 
@@ -568,7 +558,7 @@
   This result implies the *contractability* of the Davis complex, and shows that the *word problem* (whether two words represent the same element) and *conjugacy problem* (whether two words represent conjugate elements) are solvable for $W$.
 ]
 
-#let tits_representation = [
+#let tits-representation = [
   A key result due to Jacques Tits gives a faithful linear representation for $(W, S)$, $
     rho : W -> GL_n (RR),
   $ with $n = |S|$, such that for each $s_i in S$, $rho(s_i) = sigma_i$ is a linear involution whose fixed set is a hyperplane and for all $i != j$, the product $sigma_i sigma_j$ has order $m_(i j)$.
@@ -628,7 +618,7 @@
     [
       For example, take the infinite dihedral group
       $
-        W = gen(s\, t | s^2 = t^2 = 1) iso D_infty,
+        W = gen(s\, t | s^2 = t^2 = 1) iso D-infty,
       $
       whose Coxeter complex (and similarly its Davis complex) is the tessellation of the real line $EE^1$ under the action of $W$.
 

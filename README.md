@@ -9,6 +9,6 @@ typst init @local/post-it:0.1.0
 
 ![Lorem Ipsum example](./thumbnail.svg)
 
-## Examples
+## Example
 
 ![Directed Reading Poster example](./examples/coxeter-groups/poster.svg)

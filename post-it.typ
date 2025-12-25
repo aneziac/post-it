@@ -8,13 +8,13 @@
 ))
 
 #let default-base-colors = (
-  bgcolor1:   black,
-  bgcolor2:   black,
-  textcolor1: white,
-  textcolor2: white,
+  bgcolor1:   white,
+  bgcolor2:   white,
+  textcolor1: blue,
+  textcolor2: blue,
 )
 
-#let poster_section(
+#let poster-section(
   title,
   body,
   base-colors: default-base-colors,
@@ -27,7 +27,16 @@
     inset: 20pt,
     radius: 10pt,
     stack(
-      align(center)[== #title],
+      align(center)[
+        #text(
+          40pt,
+          weight: "extrabold",
+          fill: base-colors.bgcolor2
+        )[
+          #title
+        ]
+        #v(0.4em)
+      ],
       v(0.15em),
       line(
         length: 100%,
@@ -38,13 +47,13 @@
         )
       ),
       v(0.6em),
-      [#body],
+      text(fill: base-colors.textcolor1)[#body],
       v(0.3em)
     )
   )
 }
 
-#let poster_header(
+#let poster-header(
   title,
   author,
   mentor,
@@ -93,7 +102,7 @@
 }
 
 
-#let poster_footer(base-colors) = {
+#let poster-footer(base-colors) = {
   stack(
     dir: ttb,
     block(
@@ -130,24 +139,12 @@
 
   set text(
     size: 24pt,
-    fill: base-colors.textcolor1
   )
-
-  show heading.where(level: 2): it => [
-    #set text(40pt, fill: base-colors.bgcolor2)
-    #it
-    #v(0.3em)
-  ]
-
-  show strong: it => [
-    #set text(fill: base-colors.textcolor1)
-    #it
-  ]
 
   grid(
     columns: 1,
     rows: (13%, 83%, 4%),
-    poster_header(
+    poster-header(
       title,
       author,
       mentor,
@@ -156,6 +153,6 @@
       base-colors,
     ),
     doc,
-    poster_footer(base-colors)
+    poster-footer(base-colors)
   )
 }
